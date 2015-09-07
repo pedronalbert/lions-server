@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use App\Logger;
+use Auth;
 
 class Event extends Model
 {
@@ -129,4 +130,5 @@ class Event extends Model
     $this->active = 0;
     $this->save();
   }
+
 }

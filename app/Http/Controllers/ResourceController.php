@@ -8,7 +8,6 @@ use App\Resource;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Validator;
-use App\Logger;
 
 class ResourceController extends Controller {
   private $notLoginJson = ['message' => 'No has iniciado session!'];
@@ -64,9 +63,6 @@ class ResourceController extends Controller {
     } else {
       $newResource = Resource::create($data);
 
-      $logMessage = 'El usuario '.$user->name.' ha registrado un nuevo recurso id: '.$newResource->id;
-      Logger::create(['message' => $logMessage]);
-
       return response()->json($newResource);   
     }
   }
@@ -111,9 +107,6 @@ class ResourceController extends Controller {
       } else {
         $resource->update($data);
 
-        $logMessage = 'El usuario '.$user->name.' ha actualizado el recurso id: '.$resource->id;
-        Logger::create(['message' => $logMessage]);
-
         return response()->json($resource);   
       }
 
@@ -136,9 +129,6 @@ class ResourceController extends Controller {
     $resource = Resource::find($id);
 
     if($resource) {
-      $logMessage = 'El usuario '.$user->name.' ha eliminado el recurso id: '.$resource->id;
-      Logger::create(['message' => $logMessage]);
-
       $resource->delete();
 
       return response()->json(['message' => 'Recurso ha sido eliminado']);

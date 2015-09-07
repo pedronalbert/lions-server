@@ -9,7 +9,6 @@ use Auth;
 use Validator;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Logger;
 
 class MemberController extends Controller {
   private $notLoginJson = ['message' => 'No has iniciado session!'];
@@ -65,9 +64,6 @@ class MemberController extends Controller {
     } else {
       $newMember = Member::create($data);
 
-      $logMessage = 'El usuario '.$user->name.' ha registrado un nuevo miembro id: '.$newMember->id;
-      Logger::create(['message' => $logMessage]);
-
       return response()->json($newMember);   
     }
   }
@@ -112,9 +108,6 @@ class MemberController extends Controller {
       } else {
         $member->update($data);
 
-        $logMessage = 'El usuario '.$user->name.' ha actualizado al miembro id: '.$member->id;
-        Logger::create(['message' => $logMessage]);
-
         return response()->json($member);   
       }
     } else {
@@ -136,9 +129,6 @@ class MemberController extends Controller {
     $member = Member::find($id);
 
     if($member) {
-      $logMessage = 'El usuario '.$user->name.' ha eliminado al miembro id: '.$member->id;
-      Logger::create(['message' => $logMessage]);
-
       $member->delete();
 
       return response()->json(['message' => 'Miembro ha sido eliminado exitosamente']);

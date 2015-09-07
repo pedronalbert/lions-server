@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Auth;
 use App\Role;
-use App\Logger;
 
 class UserController extends Controller {
   private $notLoginJson = ['message' => 'No has iniciado session!'];
@@ -117,9 +116,6 @@ class UserController extends Controller {
 
       $newUser->loadRole();
 
-      $logMessage = 'El usuario '.$user->name.' ha registrado al usuario id: '.$newUser->id;
-      Logger::create(['message' => $logMessage]);
-
       return response()->json($newUser);
     }
   }
@@ -129,11 +125,9 @@ class UserController extends Controller {
 
     if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
       $user = Auth::user();
-      // Authentication passed...
-      $logMessage = 'El usuario '.$user->name.' ha iniciado session';
-      Logger::create(['message' => $logMessage]);
+      $user->loadRole();
 
-      return response()->json(['message' => 'Login Success'], 200);
+      return response()->json($user, 200);
     } else {
       return response()->json(['message' => 'Los datos ingresados son incorrectos'], 400);
     }
@@ -149,9 +143,6 @@ class UserController extends Controller {
     $user = User::find($userId);
 
     if($user) {
-      $logMessage = 'El usuario '.$user->name.' ha eliminado al usuario id: '.$user->id;
-      Logger::create(['message' => $logMessage]);
-
       $user->delete();
 
       return response()->json(['message' => 'Usuario ha sido eliminado']);
@@ -205,8 +196,6 @@ class UserController extends Controller {
         }
 
         $user->loadRole();
-        $logMessage = 'El usuario '.$user->name.' ha actualizado al usuario id: '.$user->id;
-        Logger::create(['message' => $logMessage]);
 
         return response()->json($user);
 

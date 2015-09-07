@@ -8,7 +8,6 @@ use App\Event;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Member;
-use App\Logger;
 use Auth;
 
 
@@ -80,9 +79,6 @@ class EventController extends Controller {
     $event->load('members');
     $event->loadResources();
 
-    $logMessage = 'El usuario '.$user->name.' ha registrado un nuevo evento id: '.$event->id;
-    Logger::create(['message' => $logMessage]);
-
     return response()->json($event);
   }
 
@@ -106,9 +102,6 @@ class EventController extends Controller {
       $event->load('members');
       $event->loadResources(); 
 
-      $logMessage = 'El usuario '.$user->name.' ha actualizado el evento id: '.$event->id;
-      Logger::create(['message' => $logMessage]);
-
       return response()->json($event);
     } else {
       return response()->json($this->eventNotFoundJson, 404);
@@ -129,9 +122,6 @@ class EventController extends Controller {
     $event = Event::find($id);
 
     if($event) {
-      $logMessage = 'El usuario '.$user->name.' ha eliminado el evento id: '.$event->id;
-      Logger::create(['message' => $logMessage]);
-
       $event->finishEvent();
       $event->delete();
 
@@ -164,9 +154,6 @@ class EventController extends Controller {
         $event->members()->attach($memberId);
         $member = Member::find($memberId);
 
-        $logMessage = 'El usuario '.$user->name.' ha añadido al miembro id: '.$member->id.' al evento id: '.$event->id;
-        Logger::create(['message' => $logMessage]);
-
         return response()->json($member);  
       }  
     } else {
@@ -191,8 +178,6 @@ class EventController extends Controller {
     if($event) {
       $event->members()->detach($memberId);
 
-      $logMessage = 'El usuario '.$user->name.' ha removido al miembro id: '.$memberId.' del evento id: '.$event->id;
-      Logger::create(['message' => $logMessage]);
       return response()->json(['message' => 'Miembro ha sido removido exitosamente']); 
     } else {
       return response()->json($this->eventNotFoundJson, 404);
@@ -220,8 +205,6 @@ class EventController extends Controller {
       $json = ['message' => $event->errorMessage];
       return response()->json($json, 400);
     } else {
-      $logMessage = 'El usuario '.$user->name.' ha añadido '.$data['amount'].' unidades del recurso id: '.$data['resource_id'].' al evento id: '.$eventId;
-      Logger::create(['message' => $logMessage]);
 
       return response()->json($resourceAdded);
     }
@@ -244,8 +227,6 @@ class EventController extends Controller {
     
     if($event) {
       if($event->removeResource($data)) {
-        $logMessage = 'El usuario '.$user->name.' ha removido el recurso id: '.$data['resource_id'].' del evento id: '.$eventId;
-        Logger::create(['message' => $logMessage]);
 
         return response()->json(['message' => 'Recurso removido exitosamente']);
       } else {
@@ -271,9 +252,6 @@ class EventController extends Controller {
 
     if($event) {
       $event->finishEvent();
-
-      $logMessage = 'El usuario '.$user->name.' ha marcado como finalizado el evento id: '.$event->id;
-      Logger::create(['message' => $logMessage]);
 
       return response()->json(['message' => 'Evento marcado como finalizado']);
     } else {
