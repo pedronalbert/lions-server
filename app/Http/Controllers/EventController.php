@@ -251,7 +251,9 @@ class EventController extends Controller {
     $event = Event::find($eventId);
 
     if($event) {
-      $event->finishEvent();
+      if($event->active == 1) {
+        $event->finishEvent();
+      }
 
       return response()->json(['message' => 'Evento marcado como finalizado']);
     } else {
