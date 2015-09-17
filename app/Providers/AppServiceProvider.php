@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        Event::creating(function ($event) {
+        Event::created(function ($event) {
           $user = Auth::user();
           $message = 'El usuario '.$user->name.' ha registrado el evento id: '.$event->id;
           
@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
           Logger::create(['message' => $message]);
         });
 
-        Member::creating(function ($member) {
+        Member::created(function ($member) {
           $user = Auth::user();
           $message = 'El usuario '.$user->name.' ha registrado al miembro id: '.$member->id;
           
@@ -62,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
           Logger::create(['message' => $message]);
         });
 
-        Resource::creating(function ($resource) {
+        Resource::created(function ($resource) {
           $user = Auth::user();
           $message = 'El usuario '.$user->name.' ha registrado el recurso id: '.$resource->id;
           
@@ -83,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
           Logger::create(['message' => $message]);
         });
 
-        User::creating(function ($user) {
+        User::created(function ($user) {
           $user = Auth::user();
           $message = 'El usuario '.$user->name.' ha registrado al usuario id: '.$user->id;
           
