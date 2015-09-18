@@ -17,7 +17,7 @@ class BackupsController extends Controller
    * @return Response
    */
   public function index() {
-      $backups = Backup::all();
+      $backups = Backup::orderBy('created_at', 'desc')->get();
 
       foreach ($backups as $backup) {
         $backup->setPrettyName();
