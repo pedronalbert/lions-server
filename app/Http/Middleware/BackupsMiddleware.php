@@ -39,7 +39,7 @@ class BackupsMiddleware
 
     $newBackup = Backup::create();
 
-    $command = 'mysqldump -uroot lions > '.$dir.$newBackup->getDateTimeString().'.sql';
+    $command = '/opt/lampp/bin/mysqldump -uroot lions > '.$dir.$newBackup->getDateTimeString().'.sql';
 
     exec($command);
   }
