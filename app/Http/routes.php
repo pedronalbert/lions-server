@@ -17,6 +17,7 @@ Route::resource('member', 'MemberController');
 Route::resource('resource', 'ResourceController');
 Route::resource('event', 'EventController');
 Route::resource('user', 'UserController');
+Route::resource('backups', 'BackupsController');
 
 Route::post('event/{eventId}/add_member', 'EventController@addMember');
 Route::post('event/{eventId}/remove_member', 'EventController@removeMember');
