@@ -25,6 +25,6 @@ class CreateLogsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('logs');
     }
 }
