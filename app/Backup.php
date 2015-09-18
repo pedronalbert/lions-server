@@ -12,4 +12,8 @@ class Backup extends Model {
 
 		return $date->format('Y_m_d_His');
 	}
+
+	public function setPrettyName() {
+		$this->name = $this->getDateTimeString().'.sql';
+	}
 }

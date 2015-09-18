@@ -19,6 +19,10 @@ class BackupsController extends Controller
   public function index() {
       $backups = Backup::all();
 
+      foreach ($backups as $backup) {
+        $backup->setPrettyName();
+      }
+
       return response()->json($backups);
   }
 
