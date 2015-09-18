@@ -122,7 +122,10 @@ class EventController extends Controller {
     $event = Event::find($id);
 
     if($event) {
-      $event->finishEvent();
+      if($event->active == 1) {
+        $event->finishEvent();
+      }
+      
       $event->delete();
 
       return response()->json(['message' => 'Evento ha sido eliminado exitosamente']);    
@@ -253,7 +256,7 @@ class EventController extends Controller {
     if($event) {
       if($event->active == 1) {
         $event->finishEvent();
-      }
+      }      
 
       return response()->json(['message' => 'Evento marcado como finalizado']);
     } else {
